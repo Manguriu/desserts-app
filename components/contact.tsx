@@ -1,8 +1,6 @@
 "use client";
 
-import type React from "react";
-
-import { useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,16 +21,13 @@ export default function Contact() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic here
     console.log("Form submitted:", formData);
-    // Reset form
     setFormData({ name: "", email: "", message: "" });
-    // Show success message
     alert("Thank you for your message! We'll get back to you soon.");
   };
 
@@ -42,9 +37,28 @@ export default function Contact() {
     { day: "Sunday", hours: "9:00 AM - 7:00 PM" },
   ];
 
+  // Center coordinates from user
+  const lat = -1.036196994830303;
+  const lon = 37.07304862884438;
+  // Small delta (~0.01) for ~1km bounding box
+  const delta = 0.01;
+  const minLon = lon - delta;
+  const maxLon = lon + delta;
+  const minLat = lat - delta;
+  const maxLat = lat + delta;
+
+  // Build the OSM embed URL
+  const mapEmbedUrl = [
+    "https://www.openstreetmap.org/export/embed.html",
+    `?bbox=${minLon}%2C${minLat}%2C${maxLon}%2C${maxLat}`,
+    `&layer=mapnik`,
+    `&marker=${lat}%2C${lon}`,
+  ].join("");
+
   return (
     <section id="contact" className="py-12 md:py-16 lg:py-24 dark:bg-gray-950">
       <div className="container mx-auto px-4">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -62,6 +76,7 @@ export default function Contact() {
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-6 md:gap-8 lg:gap-12">
+          {/* Contact Form */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -69,6 +84,7 @@ export default function Contact() {
             transition={{ duration: 0.6 }}
           >
             <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+              {/* Name */}
               <div>
                 <label
                   htmlFor="name"
@@ -83,10 +99,13 @@ export default function Contact() {
                   onChange={handleChange}
                   placeholder="Your name"
                   required
-                  className="rounded-lg border-pink-100 dark:border-pink-900 focus:border-pink-300 dark:focus:border-pink-700 focus:ring focus:ring-pink-200 dark:focus:ring-pink-800 focus:ring-opacity-50"
+                  className="rounded-lg border-pink-100 dark:border-pink-900
+                             focus:border-pink-300 dark:focus:border-pink-700
+                             focus:ring focus:ring-pink-200 dark:focus:ring-pink-800
+                             focus:ring-opacity-50"
                 />
               </div>
-
+              {/* Email */}
               <div>
                 <label
                   htmlFor="email"
@@ -102,10 +121,13 @@ export default function Contact() {
                   onChange={handleChange}
                   placeholder="Your email"
                   required
-                  className="rounded-lg border-pink-100 dark:border-pink-900 focus:border-pink-300 dark:focus:border-pink-700 focus:ring focus:ring-pink-200 dark:focus:ring-pink-800 focus:ring-opacity-50"
+                  className="rounded-lg border-pink-100 dark:border-pink-900
+                             focus:border-pink-300 dark:focus:border-pink-700
+                             focus:ring focus:ring-pink-200 dark:focus:ring-pink-800
+                             focus:ring-opacity-50"
                 />
               </div>
-
+              {/* Message */}
               <div>
                 <label
                   htmlFor="message"
@@ -120,13 +142,20 @@ export default function Contact() {
                   onChange={handleChange}
                   placeholder="Your message"
                   required
-                  className="min-h-[100px] md:min-h-[120px] rounded-lg border-pink-100 dark:border-pink-900 focus:border-pink-300 dark:focus dark:focus:border-pink-700 focus:ring focus:ring-pink-200 dark:focus:ring-pink-800 focus:ring-opacity-50"
+                  className="min-h-[100px] md:min-h-[120px] rounded-lg
+                             border-pink-100 dark:border-pink-900
+                             focus:border-pink-300 dark:focus:border-pink-700
+                             focus:ring focus:ring-pink-200 dark:focus:ring-pink-800
+                             focus:ring-opacity-50"
                 />
               </div>
-
+              {/* Submit Button */}
               <Button
                 type="submit"
-                className="w-full rounded-lg bg-gradient-to-r from-pink-400 to-purple-400 hover:from-pink-500 hover:to-purple-500 text-white shadow-md hover:shadow-lg transition-all"
+                className="w-full rounded-lg bg-gradient-to-r
+                           from-pink-400 to-purple-400 hover:from-pink-500
+                           hover:to-purple-500 text-white shadow-md
+                           hover:shadow-lg transition-all"
                 size={isMobile ? "default" : "lg"}
               >
                 Send Message
@@ -134,6 +163,7 @@ export default function Contact() {
             </form>
           </motion.div>
 
+          {/* Map & Info */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -141,50 +171,51 @@ export default function Contact() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="space-y-4 md:space-y-6"
           >
-            <Card className="border-0 shadow-lg rounded-xl overflow-hidden dark:bg-gray-900 dark:shadow-gray-900/30">
-              <div className="h-[150px] sm:h-[180px] md:h-[200px] relative">
-                {/* Clickable Google Maps link */}
-                <a
-                  href="https://maps.app.goo.gl/qb8ocuoqpFrAUuLy9"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="absolute inset-0 bg-gray-200 dark:bg-gray-800 flex items-center justify-center hover:bg-gray-300 transition"
-                >
-                  <MapPin className="h-10 w-10 text-gray-400 dark:text-gray-600" />
-                  <span className="sr-only">Open location in Google Maps</span>
-                </a>
+            {/* OSM Map Card */}
+            <Card className="border-0 shadow-lg rounded-xl overflow-hidden
+                             dark:bg-gray-900 dark:shadow-gray-900/30">
+              <div className="h-[150px] sm:h-[180px] md:h-[200px] overflow-hidden
+                              rounded-t-xl">
+                <iframe
+                  sandbox="allow-scripts"
+                  width="100%"
+                  height="100%"
+                  frameBorder="0"
+                  scrolling="no"
+                  src={mapEmbedUrl}
+                  style={{ border: 0 }}
+                  title="Sweet Treats — Thika Town"
+                />
               </div>
-
               <CardContent className="p-4 sm:p-6">
                 <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">
                   Visit Our Shop
                 </h3>
                 <div className="space-y-3 sm:space-y-4">
                   <div className="flex items-start">
-                    <MapPin className="h-5 w-5 text-pink-500 dark:text-pink-400 mt-0.5 mr-3 flex-shrink-0" />
+                    <MapPin className="h-5 w-5 text-pink-500 dark:text-pink-400
+                                       mt-0.5 mr-3 flex-shrink-0" />
                     <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
                       Naivas Supermarket - Thika Town
                       <br />
                       Commercial St, Thika
                     </p>
                   </div>
-
                   <div className="flex items-start">
-                    <Phone className="h-5 w-5 text-pink-500 dark:text-pink-400 mt-0.5 mr-3 flex-shrink-0" />
+                    <Phone className="h-5 w-5 text-pink-500 dark:text-pink-400
+                                     mt-0.5 mr-3 flex-shrink-0" />
                     <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
                       0746 354053
                     </p>
                   </div>
-
                   <div className="flex items-start">
-                    <Mail className="h-5 w-5 text-pink-500 dark:text-pink-400 mt-0.5 mr-3 flex-shrink-0" />
+                    <Mail className="h-5 w-5 text-pink-500 dark:text-pink-400
+                                    mt-0.5 mr-3 flex-shrink-0" />
                     <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
                       hello@sweettreats.com
                     </p>
                   </div>
                 </div>
-
-                {/* Optional Share Location Button */}
                 <Button
                   onClick={async () => {
                     const url = "https://maps.app.goo.gl/qb8ocuoqpFrAUuLy9";
@@ -209,7 +240,9 @@ export default function Contact() {
               </CardContent>
             </Card>
 
-            <Card className="border-0 shadow-lg rounded-xl dark:bg-gray-900 dark:shadow-gray-900/30">
+            {/* Store Hours Card */}
+            <Card className="border-0 shadow-lg rounded-xl dark:bg-gray-900
+                             dark:shadow-gray-900/30">
               <CardContent className="p-4 sm:p-6">
                 <div className="flex items-center mb-3 sm:mb-4">
                   <Clock className="h-5 w-5 text-pink-500 dark:text-pink-400 mr-3" />
@@ -238,3 +271,4 @@ export default function Contact() {
     </section>
   );
 }
+

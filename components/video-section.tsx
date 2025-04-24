@@ -32,7 +32,7 @@ const videoItems: VideoItem[] = [
     id: 1,
     title: "How We Make Our Honey Glazed Donuts",
     description: "A behind-the-scenes look at our signature pastry",
-    thumbnail: "/placeholder.svg?height=600&width=800",
+    thumbnail: "",
     videoUrl: "",
     duration: "1:45",
     featured: true,
@@ -42,7 +42,7 @@ const videoItems: VideoItem[] = [
     id: 2,
     title: "Queen Bee Cake Decoration",
     description: "Watch our pastry chef create our famous celebration cake",
-    thumbnail: "/placeholder.svg?height=600&width=800",
+    thumbnail: "",
     videoUrl: "",
     duration: "2:30",
     featured: true,
@@ -63,7 +63,7 @@ const videoItems: VideoItem[] = [
     id: 4,
     title: "Honeycomb Pattern Technique",
     description: "Learn how we create our signature honeycomb pattern",
-    thumbnail: "/placeholder.svg?height=600&width=800",
+    thumbnail: "",
     videoUrl: "",
     duration: "3:20",
     type: "video",
@@ -72,7 +72,7 @@ const videoItems: VideoItem[] = [
     id: 5,
     title: "The Hive Pastries Story",
     description: "The journey of how our bakery came to bee",
-    thumbnail: "/placeholder.svg?height=600&width=800",
+    thumbnail: "",
     videoUrl: "",
     duration: "4:15",
     featured: true,
@@ -82,7 +82,7 @@ const videoItems: VideoItem[] = [
     id: 6,
     title: "Honey Harvest Season",
     description: "See how we source our premium honey",
-    thumbnail: "/placeholder.svg?height=600&width=800",
+    thumbnail: "",
     videoUrl: "",
     duration: "2:10",
     type: "video",
@@ -328,7 +328,7 @@ export default function VideoSection() {
                       src={
                         video.thumbnail && video.thumbnail.trim() !== ""
                           ? video.thumbnail
-                          : "/placeholder.svg?height=600&width=800"
+                          : "/MainLogo.png"
                       }
                       alt={video.title}
                       fill
